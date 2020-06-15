@@ -6,7 +6,10 @@
 trigger:
   tags:
     include:
-      - v*
+      - release/*
+
+variables:
+  ReleaseTagPrefix: release/
 
 pool:
   vmImage: "ubuntu-latest"
@@ -19,9 +22,11 @@ steps:
     displayName: Get Version from Release Tag
     inputs:
       filePath: "get-version.sh"
+      arguments: $(ReleaseTagPrefix)
 
   - task: DotNetCoreCLI@2
     displayName: Pack NuGet Package
+    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/$(ReleaseTagPrefix)'))
     inputs:
       command: "pack"
       packagesToPack: "**/*.csproj"
