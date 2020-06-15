@@ -16,5 +16,16 @@ steps:
     displayName: "Run a one-line script"
 
   - task: Bash@3
+    displayName: Get Version from Release Tag
     inputs:
       filePath: "get-version.sh"
+
+  - task: DotNetCoreCLI@2
+    displayName: Pack NuGet Package
+    inputs:
+      command: "pack"
+      packagesToPack: "**/*.csproj"
+      versioningScheme: "byPrereleaseNumber"
+      majorVersion: $(MajorVersion)
+      minorVersion: $(MinorVersion)
+      patchVersion: $(PatchVersion)
