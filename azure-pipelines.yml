@@ -9,7 +9,7 @@ trigger:
       - release/*
 
 variables:
-  ReleaseTagPrefix: release/
+  ReleaseTagPrefix: refs/tags/release/
 
 pool:
   vmImage: "ubuntu-latest"
@@ -26,7 +26,7 @@ steps:
 
   - task: DotNetCoreCLI@2
     displayName: Pack NuGet Package
-    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/$(ReleaseTagPrefix)'))
+    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], $(ReleaseTagPrefix)))
     inputs:
       command: "pack"
       packagesToPack: "**/*.csproj"
