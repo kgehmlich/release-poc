@@ -6,11 +6,15 @@
 trigger:
   tags:
     include:
-    - v*
+      - v*
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: "ubuntu-latest"
 
 steps:
-- script: echo 'New release created'
-  displayName: 'Run a one-line script'
+  - script: echo 'New release created'
+    displayName: "Run a one-line script"
+
+  - task: Bash@3
+    inputs:
+      filePath: "get-version.sh"

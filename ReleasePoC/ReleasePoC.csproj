@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <Target Name="PreparePackageReleaseNotesFromFile" BeforeTargets="GenerateNuspec">
+        <ReadLinesFromFile File="./RELEASE_NOTES.md" >
+            <Output TaskParameter="Lines" ItemName="ReleaseNoteLines"/>
+        </ReadLinesFromFile>
+        <PropertyGroup>
+            <PackageReleaseNotes>@(ReleaseNoteLines, '%0a')</PackageReleaseNotes>
+        </PropertyGroup>
+    </Target>
+
+</Project>
